@@ -1,0 +1,1506 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!--==============================================counter script start==============================================-->
+
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script>
+        setInterval(function() {
+            myTimer();
+        }, 1000);
+
+        function myTimer() {
+            var ending = jQuery("#timer").attr("data-endtime"),
+                endTime = new Date(ending);
+            endTime = Date.parse(endTime) / 1000;
+            var now = new Date();
+            var tempnow = String(now);
+            tempnow = tempnow.substring(4);
+            var month = tempnow[0] + tempnow[1] + tempnow[2];
+            console.log(month + ' ' + month.length);
+            if (ending > tempnow && month == "Sep") {
+                now = Date.parse(now) / 1000;
+
+                var timeLeft = endTime - now;
+
+                var days = Math.floor(timeLeft / 86400);
+                var hours = Math.floor((timeLeft - days * 86400) / 3600);
+                var minutes = Math.floor((timeLeft - days * 86400 - hours * 3600) / 60);
+                var seconds = Math.floor(
+                    timeLeft - days * 86400 - hours * 3600 - minutes * 60
+                );
+
+                //   if (days < "10") {
+                //     days = "0" + days;
+                //   }
+                if (days < "1") {
+                    days = "0";
+                }
+                //   if (hours < "10") {
+                //     hours = "0" + hours;
+                //   }
+                if (hours < "1") {
+                    hours = "0";
+                }
+                //   if (minutes < "10") {
+                //     minutes = "0" + minutes;
+                //   }
+                if (minutes < "1") {
+                    minutes = "0";
+                }
+                //   if (seconds < "10") {
+                //     seconds = "0" + seconds;
+                //   }
+                if (seconds < "1") {
+                    seconds = "0";
+                }
+
+                $("#timer").html(
+                    "<div class='row'><div class='col-xs-12 col-lg-3 py-5' id='days'>" +
+                    days + "<span>Days</span></div>" + "<div class='col-xs-12 col-lg-3 py-5' id='hours'>" + hours + "<span>Hrs</span></div>" +
+                    "<div class='col-xs-12 col-lg-3 py-5' id='minutes'>" +
+                    minutes + "<span>Mins</span></div>" + "<div class='col-xs-12 col-lg-3 py-5' id='seconds'>" +
+                    seconds + "<span>Secs</span></div></div>"
+                );
+            } else {
+                $("#timer").html(
+                    "<div class='row' style='width:auto; height: auto'> <div class='col-xs-12 col-lg-3 py-5' style='width: 100%; height: auto; text-align: center; margin:auto; float:right;'>Now Live!</div></div>"
+                );
+            }
+
+        }
+
+        var prevScrollpos = window.pageYOffset;
+        window.onscroll = function() {
+            var currentScrollPos = window.pageYOffset;
+            if (prevScrollpos > currentScrollPos) {
+                document.getElementById("navbar").style.top = "0";
+            } else {
+                document.getElementById("navbar").style.top = "-100px";
+            }
+            prevScrollpos = currentScrollPos;
+        }
+
+        $(function() {
+            var navMain = $(".navbar-collapse");
+
+            navMain.on("click", "a", null, function() {
+                navMain.collapse('hide');
+            });
+        });
+
+        $(document).ready(function() {
+            $(window).scroll(function() {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $('#back-to-top').click(function() {
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 400);
+                return false;
+            });
+        });
+
+        var memphisFun = function() {
+            var theta = ($(window).scrollTop() / 180) % Math.PI;
+            $(".kz-ros-left").css({
+                transform: "rotate(" + theta + "rad)"
+            });
+            $(".kz-ros-right").css({
+                transform: "rotate(-" + theta + "rad)"
+            });
+        };
+
+        $(window).ready(function() {
+            var scroll = new SmoothScroll('a[href*="#"]');
+            memphisFun();
+        });
+
+        $(window).scroll(function() {
+            memphisFun();
+        });
+
+        // Arima faq
+        var currentFAQ1 = -1;
+
+        function toggleFAQ1(index) {
+            let elem = $(`.arimatab .faq:nth-child(${index})`);
+
+            if (currentFAQ1 > 0) {
+                let e = $(`.arimatab .faq:nth-child(${currentFAQ1})`);
+                e.find("p:first-child span").removeClass("active");
+                e.removeClass("active");
+                e.find("p:nth-child(2)").css("max-height", 0);
+
+                if (currentFAQ1 === index) {
+                    return (currentFAQ1 = -1);
+                }
+                currentFAQ1 = -1;
+            }
+
+            currentFAQ1 = index;
+            elem.find("p:first-child span").addClass("active");
+            let e = elem.find("p:nth-child(2)");
+            e.css("max-height", e.get(0).scrollHeight);
+
+            elem.addClass("active");
+        }
+
+        // coderally faq
+        var currentFAQ2 = -1;
+
+        function toggleFAQ2(index) {
+            let elem = $(`.coderallytab .faq:nth-child(${index})`);
+
+            if (currentFAQ2 > 0) {
+                let e = $(`.coderallytab .faq:nth-child(${currentFAQ2})`);
+                e.find("p:first-child span").removeClass("active");
+                e.removeClass("active");
+                e.find("p:nth-child(2)").css("max-height", 0);
+
+                if (currentFAQ2 === index) {
+                    return (currentFAQ2 = -1);
+                }
+                currentFAQ2 = -1;
+            }
+
+            currentFAQ2 = index;
+            elem.find("p:first-child span").addClass("active");
+            let e = elem.find("p:nth-child(2)");
+            e.css("max-height", e.get(0).scrollHeight);
+
+            elem.addClass("active");
+        }
+
+        // Agape faq
+        var currentFAQ3 = -1;
+
+        function toggleFAQ3(index) {
+            let elem = $(`.agapetab .faq:nth-child(${index})`);
+
+            if (currentFAQ3 > 0) {
+                let e = $(`.agapetab .faq:nth-child(${currentFAQ3})`);
+                e.find("p:first-child span").removeClass("active");
+                e.removeClass("active");
+                e.find("p:nth-child(2)").css("max-height", 0);
+
+                if (currentFAQ3 === index) {
+                    return (currentFAQ3 = -1);
+                }
+                currentFAQ3 = -1;
+            }
+
+            currentFAQ3 = index;
+            elem.find("p:first-child span").addClass("active");
+            let e = elem.find("p:nth-child(2)");
+            e.css("max-height", e.get(0).scrollHeight);
+
+            elem.addClass("active");
+        }
+
+        // memeit faq
+        var currentFAQ4 = -1;
+
+        function toggleFAQ4(index) {
+            let elem = $(`.memeittab .faq:nth-child(${index})`);
+
+            if (currentFAQ4 > 0) {
+                let e = $(`.memeittab .faq:nth-child(${currentFAQ4})`);
+                e.find("p:first-child span").removeClass("active");
+                e.removeClass("active");
+                e.find("p:nth-child(2)").css("max-height", 0);
+
+                if (currentFAQ4 === index) {
+                    return (currentFAQ4 = -1);
+                }
+                currentFAQ4 = -1;
+            }
+
+            currentFAQ4 = index;
+            elem.find("p:first-child span").addClass("active");
+            let e = elem.find("p:nth-child(2)");
+            e.css("max-height", e.get(0).scrollHeight);
+
+            elem.addClass("active");
+        }
+
+        var initialPane = "arimaPane";
+
+        function togglePane(paneVal) {
+            if (initialPane == paneVal) {
+                return null;
+            }
+            if (initialPane == 'arimaPane') {
+                if (currentFAQ1 > 0) {
+                    toggleFAQ1(currentFAQ1);
+                }
+            } else if (initialPane == 'coderallyPane') {
+                if (currentFAQ2 > 0) {
+                    toggleFAQ2(currentFAQ2);
+                }
+            } else if (initialPane == 'agapePane') {
+                if (currentFAQ3 > 0) {
+                    toggleFAQ3(currentFAQ3);
+                }
+            } else if (initialPane == 'memeitPane') {
+                if (currentFAQ4 > 0) {
+                    toggleFAQ4(currentFAQ4);
+                }
+            }
+            initialPane = paneVal;
+            return null;
+        }
+    </script>
+    <!--==============================================counter script end==============================================-->
+
+    <!--==============================================counter css end==============================================-->
+    <style>
+        #navbar {
+            position: fixed;
+            /* Make it stick/fixed */
+            width: 100%;
+            transition: top 0.3s;
+            /* Transition effect when sliding down (and up) */
+        }
+        
+        #timer {
+            text-align: center;
+            opacity: 0.9;
+            background-color: black;
+            background-position: top;
+            background-size: cover;
+            font-size: 55px;
+            color: dodgerblue;
+        }
+        
+        #days {
+            height: 3cm;
+            font-size: 55px;
+        }
+        
+        #hours {
+            height: 3cm;
+            font-size: 55px;
+        }
+        
+        #minutes {
+            height: 3cm;
+            font-size: 55px;
+        }
+        
+        #seconds {
+            height: 3cm;
+            font-size: 55px;
+        }
+        
+        @-webkit-keyframes hue {
+            from {
+                -webkit-filter: hue-rotate(0deg);
+            }
+            to {
+                -webkit-filter: hue-rotate(-360deg);
+            }
+        }
+        
+        @keyframes hue {
+            from {
+                -webkit-filter: hue-rotate(0deg);
+            }
+            to {
+                -webkit-filter: hue-rotate(-360deg);
+            }
+        }
+        
+        * {
+            scroll-behavior: smooth;
+        }
+        
+        .card {
+            background-color: #ffffff !important;
+            z-index: 20 !important;
+            border: 2px solid #fd5479 !important;
+            border-radius: 30px !important;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) !important;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            display: none;
+            border-radius: 100px !important;
+            background-color: #f50136 !important;
+            transition: all 300ms ease-in-out;
+            color: white;
+        }
+    </style>
+
+    <!--==============================================counter css end==============================================-->
+
+    <!-- ========== Meta Tags ========== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <!-- ========== Title ========== -->
+    <title> XTROFEST2.0</title>
+    <!-- ========== Favicon Ico ========== -->
+    <!-- ========== STYLESHEETS ========== -->
+    <!-- Bootstrap CSS -->
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Fonts Icon CSS -->
+    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/et-line.css" rel="stylesheet">
+    <link href="assets/css/ionicons.min.css" rel="stylesheet">
+    <!-- Carousel CSS -->
+    <link href="assets/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="assets/css/owl.theme.default.min.css" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" href="assets/css/animate.min.css">
+    <!-- Custom styles for this template -->
+    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="assets/css/social_icons.css" rel="stylesheet">
+    <link rel="icon" href="assets/img/xtrofest2.0_icon_min.png">
+</head>
+
+<body>
+    <div class="loader">
+        <div class="loader-outter"></div>
+        <div class="loader-inner"></div>
+    </div>
+
+    <!--header start here -->
+    <header class="header navbar fixed-top navbar-expand-md" id="navbar">
+        <div class="container-fluid mr-3 px-3">
+            <a class="navbar-brand logo d-none d-lg-block" href="index.html">
+                <img src="assets/img/xtrofest2.0_icon_min.png" alt="Xtro" />
+            </a>
+            <a class="navbar-brand logo d-block d-lg-none" href="index.html">
+                <img src="assets/img/xtrofest2.0_icon_min.png" alt="Xtro" />
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#headernav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="lnr lnr-text-align-right"></span>
+        </button>
+            <div class="collapse navbar-collapse flex-sm-row-reverse" id="headernav">
+                <ul class="nav navbar-nav menu">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#event">EVENTS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#kz-section-schedule">SCHEDULE</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#abt">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#sponsor">SPONSORS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#faq">FAQs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#contact">CONTACT US</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </header>
+    <!--header end here-->
+
+    <!--cover section slider -->
+    <section id="home" class="home-cover">
+        <div class="cover_slider owl-carousel owl-theme">
+            <div class="cover_item" style="background: url('assets/img/bg/slider2.jpg');">
+                <div class="slider_content">
+                    <div class="slider-content-inner">
+                        <div class="container">
+                            <div class="slider-content-center">
+                                <h5 class="cover-title">Department of Information Technology Proudly Presents...
+                                </h5>
+                                <strong class="cover-xl-text">XTROFEST 2.0</strong>
+                                <p class="cover-date">
+                                    28<sup><span style="text-transform:lowercase;">th</sup></span> & 29<sup><span style="text-transform:lowercase;">th</span></sup> September 2020
+                                </p><br>
+                                <p class="cover-date">
+                                    Win exciting <span style="color:#f50136;"> cash prizes!</span>!
+                                </p><br>
+                                <h2 class="cover-title">
+                                    <span style="font-weight: 400;">Dream <span style="color:#f50136; font-weight: 600;"> IT</span>! Believe <span style="color:#f50136; font-weight: 600;"> IT</span>! Achieve <span style="color:#f50136; font-weight: 600;"> IT</span>!</span>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cover_item" style="background: url('assets/img/bg/slider.jpg');">
+                <div class="slider_content arima_slider_content">
+                    <div class="slider-content-inner">
+                        <div class="container">
+                            <div class="slider-content-center">
+                                <strong> <p class="cover-xl-text" style="text-transform: uppercase;" >A.R.I.M.A</p></strong>
+                                <br>
+                                <h3 class="cover-title">
+                                    <span style="color:#f50136; font-weight: 600;">A</span>ccessible <span style="color:#f50136; font-weight: 600;">R</span>ich <span style="color:#f50136; font-weight: 600;">I</span>nternet <span style="color:#f50136; font-weight: 600;">M</span>odern
+                                    <span style="color:#f50136; font-weight: 600;">A</span>pplication</h3>
+                                <br>
+                                <p class="cover-date">
+                                    28<sup><span style="text-transform:lowercase;">th</sup></span> & 29<sup><span style="text-transform:lowercase;">th</span></sup> September 2020
+                                </p>
+                                <a target=”_blank” href="https://forms.gle/wt3bMaGF6x5YmMgv9" class="btn btn-primary btn-rounded">
+                                Register Now
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cover_item" style="background: url('assets/img/bg/slider1.jpg');">
+                <div class="slider_content">
+                    <div class="slider-content-inner">
+                        <div class="container">
+                            <div class="slider-content-center">
+                                <strong class="cover-xl-text">CODERALLY</strong>
+                                <h3 class="cover-title">
+                                    <span style="font-weight: 300;">Where intellectuals clash</span>
+                                </h3>
+                                <p class="cover-date">
+                                    28<sup><span style="text-transform:lowercase;">th</sup></span> & 29<sup><span style="text-transform:lowercase;">th</span></sup> September 2020
+                                </p>
+                                <a target=”_blank” href="https://forms.gle/wt3bMaGF6x5YmMgv9" class=" btn btn-primary btn-rounded">
+                                Register Now
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cover_item" style="background: url('assets/img/bg/slider3.jpg');">
+                <div class="slider_content">
+                    <div class="slider-content-inner">
+                        <div class="container">
+                            <div class="slider-content-center">
+                                <strong class="cover-xl-text">AGAPE</strong>
+                                <h3 class="cover-title">
+                                    <span style="font-weight: 300;">May the odds be ever in your favor</span>
+                                </h3>
+                                <p class="cover-date">
+                                    28<sup><span style="text-transform:lowercase;">th</sup></span> & 29<sup><span style="text-transform:lowercase;">th</span></sup> September 2020
+                                </p>
+                                <a target=”_blank” href="https://forms.gle/wt3bMaGF6x5YmMgv9" class=" btn btn-primary btn-rounded">
+                                Register Now
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cover_item" style="background: url('assets/img/bg/slider4.jpg');">
+                <div class="slider_content">
+                    <div class="slider-content-inner">
+                        <div class="container">
+                            <div class="slider-content-center">
+                                <strong class="cover-xl-text">MEME-IT</strong>
+                                <h3 class="cover-title">
+                                    <span style="font-weight: 300;">War of memes</span>
+                                </h3>
+                                <p class="cover-date">
+                                    28<sup><span style="text-transform:lowercase;">th</sup></span> & 29<sup><span style="text-transform:lowercase;">th</span></sup> September 2020
+                                </p>
+                                <a target=”_blank” href="#" class=" btn btn-primary btn-rounded">
+                                Register Now
+                            </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="cover_nav">
+            <ul class="cover_dots">
+                <li class="active" data="0"><span>1</span></li>
+                <li data="1"><span>2</span></li>
+                <li data="2"><span>3</span></li>
+                <li data="3"><span>4</span></li>
+                <li data="3"><span>5</span></li>
+            </ul>
+        </div>
+    </section>
+    <!--cover section slider end -->
+
+    <!--EVENTS-->
+    <section class="pb100" id="event">
+        <div class="container">
+            <div class="section_title mb2 0">
+                <h3 class="title pt-5">
+                    Events
+                </h3>
+            </div>
+        </div>
+        <!-- <div class="container mx-auto event_box">
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6 col-lg-4">
+                        <img class="img-responsive" style="align-content: center" src="assets/img/logo.png" alt="event" style="max-height: 30%; max-width: 30%">
+                    </div>
+                    <div class="event_info col-sm-12 col-md-6 col-lg-8">
+                        <h6 class="event_title">General Instructions:</h6><br>
+                        <h6 class="title">STEP 1: Create an account in HackerEarth</h6>
+                        <h6 class="title">STEP 2: Register for the desired Event at HackerEarth</h6>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!--end  -->
+
+        <!-- <div class="container mx-auto event_box">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <img class="img-responsive" style="align-content: center" src="assets/img/events/event1.jpeg" alt="event" style="max-height: 80%; max-width: 80%">
+                </div>
+                <div class="event_info col-sm-12 col-md-6 col-lg-8">
+                    <h5 id="int" class="event_title" style="text-transform: uppercase; font-size:35px;">Int elligence;</h5>
+
+                    <div class="event_word">
+                        <h4 style="font-weight: 500;">TEAM SIZE: 1-4 members</h4>
+                        <br>
+                        <h5>Your eccentric thoughts meets the world here!!!</h5>
+                        <p>Hackathon is the technofest for engineering aspirants to bring out their cool ideas, contemplate, create and expose their upshot to the intellectual audience. int Elligence is one such prestigious national level 24 hour hackathon
+                            that encourages students to identify problems and provide ideal solution to it which will be examined, scrutinized and evaluated by the extraordinary panel of judges from various industries and institutions. Every futuristic
+                            solution will be acknowledged and honoured with worthy awards, rewards, internship offers and what not!!!!</p>
+                    </div>
+                    <div class="col-8 mx-auto">
+                        <a target=”_blank” href="https://intelligence.hackerearth.com/" class=" btn btn-info btn-rounded" style="color:red;">
+                                Registrations Closed
+                 </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container mx-auto event_box">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <img class="img-responsive" style="align-content: center" src="assets/img/events/event2.jpg" alt="event" style="max-height: 80%; max-width: 80%">
+                </div>
+                <div class="event_info col-sm-12 col-md-6 col-lg-8">
+                    <h5 id="con" class="event_title" style="font-size: 35px;">Contrivance</h5>
+                    <div class="event_word">
+                        <h4 style="font-weight: 500;">TEAM SIZE: 1-3 members</h4>
+                        <br>
+                        <h5>Contrive the Cognizance</h5>
+                        <p>Products rule the world of sophistication. Every new day yet another product becomes an inevitable part of our life with the help of growing technologies. Contrivance welcomes engineers from various departments like Computer Science,
+                            Electricals, Electronics and Instrumentation to display and demonstrate their innovation which could be the next megahit product of the year. Students with revolutionary and new-fangled products will be awarded with exotic
+                            gifts and prizes and will be honoured for being the best innovation of the eve.</p>
+                    </div>
+                    <div class=" col-8 mx-auto">
+                        <a target=”_blank” href="https://contrivance.hackerearth.com/" class=" btn btn-info btn-rounded" style="color:red;">
+                                Registrations closed
+                            </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto event_box">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <img class="img-responsive" style="align-content: center" src="assets/img/events/event3.jpeg" alt="event" style="max-height: 80%; max-width: 80%">
+                </div>
+                <div class="event_info col-sm-12 col-md-6 col-lg-8">
+                    <h5 id="pit" class="event_title" style="margin-top: inherit;">pitch Fest</h5>
+                    <div class="event_word">
+                        <h4 style="font-weight: 400;">Godsend Event for the participants of int elligence; and Contrivance</h4>
+                        <br>
+                        <h5>Unleash the speaker in you</h5>
+                        <p>Have a mic and preach the lessons that you have grasped and mastered.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container mx-auto event_box">
+            <div class="row">
+                <div class="col-sm-12 col-md-6 col-lg-4">
+                    <img class="img-responsive" style="align-content: center" src="assets/img/events/event4.jpeg" alt="event" style="max-height: 80%; max-width: 80%">
+                </div>
+                <div class="event_info col-sm-12 col-md-6 col-lg-8">
+                    <h5 id="cod" class="event_title" style="margin-top: inherit;">Code day</h5>
+                    <div class="event_word">
+                        <h4 style="font-weight: 400;">Exclusively for the students of Sri Sairam Engineering College</h4>
+                        <br>
+                        <h5>Code Compile Run!!!!</h5>
+
+                        <p>Hey Sairamites!!!! The first set of students to be fortunate enough to participate in intra-college coding event where you will be allowed to crack coding challenges for continuous 2 hours and the one who has cracked maximum challenges
+                            efficiently and significantly will be chosen as the best programmer of the day.</p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+        <!-- Events cards start -->
+        <img class="kz-ros-right memphis memphis1" src="assets/img/bgdesign/dark/butters.png" alt="butters" style="transform: rotate(0rad);">
+        <div class="container mx-auto event_box">
+            <div class="row grid">
+                <div class="col-md-8 col-lg-6 text-center mb25">
+                    <div class="card card-body">
+                        <img class="image img-fluid" src="assets/img/events/arima.png" alt="">
+                        <p class="card_content">Brace yourself to experience a stupendous 24 hour virtual hackathon where participants unveil the developer within themselves and come up with viable solutions to solve real-time problems which will be scrutinized by the extraordinary
+                            panel of judges from various industries and institutions.Showcase your skills to win awards, rewards and much more!
+                        </p>
+                        <div class="card_buttons">
+                            <!-- <a target=”_blank” href="#" class="btn btn-primary btn-rounded mr10">
+                                Register Now!
+                                <i class="fa fa-ticket fa1"></i>
+                            </a> -->
+                            <a target=”_blank” href="#" data-toggle="modal" data-target="#arimaModal" class="btn btn-primary btn-rounded mr10">
+                                Read more!
+                                <i class="fa fa-angle-right fa1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-6 text-center mb25">
+                    <div class="card card-body card_color">
+                        <img class="image img-fluid" src="assets/img/events/coderally.png" alt="">
+                        <p class="card_content">Coderally is an online programming tournament which provides a platform to test your programming and logical skills. In this event you will be pitched against various problem statements which are to be completed within the stipulated
+                            time. This event will consist of a preliminary and semi-final coding round from which participants will be shortlisted for the challenging final showdown.
+                        </p>
+                        <div class="card_buttons">
+                            <!-- <a target=”_blank” href="#" class="btn btn-primary btn-rounded mr10">
+                                Register Now!
+                                <i class="fa fa-ticket fa1"></i>
+                            </a> -->
+                            <a target=”_blank” href="#" data-toggle="modal" data-target="#coderallyModal" class="btn btn-primary btn-rounded mr10">
+                                Read more! 
+                                <i class="fa fa-angle-right fa1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-6 text-center">
+                    <div class="card card-body card_color">
+                        <img class="image img-fluid" src="assets/img/events/agape.png" alt="">
+                        <p class="mb40 card_content">Agape is a non-tech fiesta with surprise events, where the participants experience the ultimate amusement. Brightest blazes of happiness are commonly kindled by unexpected sparks. Join us to be bombarded with a fireball of these
+                            sparks.
+                        </p>
+                        <div class="card_buttons">
+                            <!-- <a target=”_blank” href="#" class="btn btn-primary btn-rounded mr10">
+                                Register Now!
+                                <i class="fa fa-ticket fa1"></i>
+                            </a> -->
+                            <a target=”_blank” href="#" data-toggle="modal" data-target="#agapeModal" class="btn btn-primary btn-rounded mr10">
+                                Read more!
+                                <i class="fa fa-angle-right fa1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-lg-6 text-center">
+                    <div class="card card-body card_color">
+                        <img class="image img-fluid" src="assets/img/events/memeit.png" alt="">
+                        <p class="card_content">Art your thought ..express your ideas from your heart of imagination. Meme gives you instant happiness and when they are created by you, it takes you to the peak of excitement. If these are you thoughts when you come across a trending
+                            meme -then my friend, you have arrived at the right platform to unleash the meme-Lord within you.
+                        </p>
+                        <div class="card_buttons">
+                            <!-- <a target=”_blank” href="#" class="btn btn-primary btn-rounded mr10">
+                                Register Now!
+                                <i class="fa fa-ticket fa1"></i>
+                            </a> -->
+                            <a target=”_blank” href="#" data-toggle="modal" data-target="#memeitModal" class="btn btn-primary btn-rounded mr10">
+                                Read more!
+                                <i class="fa fa-angle-right fa1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <img class="kz-ros-left memphis memphis2" src="assets/img/bgdesign/dark/noah.png" alt="butters" style="transform: rotate(0rad);">
+        </div>
+        <!-- Events cards end -->
+
+    </section>
+    <!--Events end-->
+
+    <!--event countdown -->
+    <section class="pb100" id="countdown">
+        <div class="container">
+            <h4 class="title">And it all starts in...</h4>
+        </div>
+        <div class="container-fluid mx-0 px-0" id="timer" data-endtime="Sep 28 2020 09:00:00 GMT+0530 (India Standard Time)">
+        </div>
+    </section>
+    <!--event count down end-->
+
+    <!-- Schedule section start -->
+    <section id="kz-section-schedule" class="kz-section-schedule kz-section-padding pb100" style="background-color: #f5f3f3;">
+        <img class="kz-ros-left memphis memphis3" src="assets/img/bgdesign/dark/sparky.png" alt="butters" style="transform: rotate(0rad);">
+        <div class="container">
+            <div class="section_title mb2 0">
+                <h3 class="title">
+                    Schedule
+                </h3>
+            </div>
+        </div>
+        <div class="kz-day-title">
+            <h4 class="title pt-5">Day 1</h4>
+        </div>
+        <div class="kz-schedule-container schedule_day1">
+            <div class="kz-day-container">
+                <div class="kz-day-item accent">
+                    <h4>Inaugral<span>9:00 am</span></h4>
+                    <p>The grand opening to make you fall in love with us</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>Getting started...<span>11:00 am</span></h4>
+                    <p>Allocating participants in respective arenas.</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>A.R.I.M.A<span>11:30 am</span></h4>
+                    <p>Instructions and problem statement discussion.</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>Coderally;<span>11:30 am</span></h4>
+                    <p>Prelims- Start code-clashing</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>Agape<span>11:30 am</span></h4>
+                    <p>Mystery begins</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>A.R.I.M.A<span>12:00 pm</span></h4>
+                    <p>Start hacking</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>Agape<span>02:00 pm</span></h4>
+                    <p>Mystery continues</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>Coderally;<span>03:00 pm</span></h4>
+                    <p>Round 1: Fight</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>A.R.I.M.A<span>03:00 pm</span></h4>
+                    <p>Evaluation: Round 1</p>
+                </div>
+            </div>
+        </div>
+        <img class="kz-ros-left memphis memphis5" src="assets/img/bgdesign/dark/wheezy.png" alt="butters" style="transform: rotate(0rad);">
+        <div class="kz-day-title">
+            <h4 class="title pt-5">Day 2</h4>
+        </div>
+        <div class="kz-schedule-container">
+            <div class="kz-day-container">
+                <div class="kz-day-item accent">
+                    <h4>A.R.I.M.A<span>12:00 am</span></h4>
+                    <p>Evaluation: Round 2</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>Coderally;<span>10:00 am</span></h4>
+                    <p>Finale- Crack IT! Win IT!</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>Agape<span>10:00 am</span></h4>
+                    <p>Mystery finale</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>A.R.I.M.A<span>10:00 am</span></h4>
+                    <p>Final Evaluation</p>
+                </div>
+                <div class="kz-day-item accent">
+                    <h4>Valedictory<span>02:00 pm</span></h4>
+                    <p>We made IT!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Schedule section end -->
+
+    <!-- About us start -->
+    <section class="pb100" id="abt">
+        <img class="kz-ros-left memphis memphis4" src="assets/img/bgdesign/dark/tangy.png" alt="butters" style="transform: rotate(0rad);">
+        <div class="container">
+            <div class="section_title">
+                <h3 class="title">
+                    About Us
+                </h3>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6">
+                    <h4>Our Institution</h4>
+                    <p class="card_content">
+                        A well defined vision, highly committed mission and dedicated leadership facilitates Sri Sairam Engineering College to be in the best of educational institutions in the country. Since its inception, our Institution has tried its hands in diverse fields
+                        to prove its excellence in all spheres.
+                    </p>
+                </div>
+                <div class="col-12 col-md-6">
+                    <h4>Our Department</h4>
+                    <p class="card_content">
+                        Teaching alone does not make any institution one among the best. Our department finds pleasure in organising many events throughout the year, some of which are Symposiums, Conferences and events in association with the IEEE Society. The department makes
+                        the students industry-ready with the best training in the RedHat Linux Certification, Oracle Academy Centre and CISCO Academy Centre.
+                    </p>
+                </div>
+            </div>
+
+            <div class="section_title">
+                <h3 class="title">
+                    Xtrofest memories...
+                </h3>
+            </div>
+            <div class="container">
+                <div class="memories_carousel owl-carousel tech_stack" id="owl3">
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest1.JPG" alt="Xtrofest"></a>
+                    </div>
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest2.JPG" alt="Xtrofest"></a>
+                    </div>
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest3.JPG" alt="Xtrofest"></a>
+                    </div>
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest4.JPG" alt="Xtrofest"></a>
+                    </div>
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest5.JPG" alt="Xtrofest"></a>
+                    </div>
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest6.JPG" alt="Xtrofest"></a>
+                    </div>
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest7.JPG" alt="Xtrofest"></a>
+                    </div>
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest8.JPG" alt="Xtrofest"></a>
+                    </div>
+                    <div class="slide_item text-center mx-auto mr40">
+                        <a title="Xtrofest"><img src="assets/img/memories/xtrofest9.JPG" alt="Xtrofest"></a>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--event features-->
+            <!-- <div class="row justify-content-center mt30">
+
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="icon_box_one">
+                        <i class="lnr lnr-rocke"></i>
+                        <div class="content">
+                            <h4>A.R.I.M.A</h4>
+                            <p>
+                                A.R.I.M.A is a 24-hour hackathon where innovations & inventions grapple together.
+                                <br><br>
+                                <strong>Members :&nbsp;</strong>1-4
+                                <br>
+                                <strong>Timings :&nbsp;</strong><br>11:00 A.M(21 Aug 2019) &nbsp;to <br> 11:00 A.M(22 Aug 2019)
+                            </p>
+                            <a href="#event">Read more</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="icon_box_one">
+                        <i class="lnr lnr-rocke"></i>
+                        <div class="content">
+                            <h4>contrivance</h4>
+                            <p>Contrivance is a product demonstration event to promote one's idea.
+                                <br><br>
+                                <strong>Members :&nbsp;</strong>1-3
+                                <br>
+                                <strong>Timings :&nbsp;</strong><br>11:00 A.M to 04:00 P.M<br>(21 Aug 2019).
+
+                            </p>
+                            <br>
+                            <a href="#event">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="icon_box_one">
+                        <i class="lnr lnr-bullhor"></i>
+                        <div class="content">
+                            <h4>Pitch fest</h4>
+                            <p>"Knowledge is gained by sharing,not by hoarding it&nbsp;!"<br><br>Its an arena to exhort your eminent ideas.
+                                <br>
+                                <br>
+                                <strong>Date :</strong> 22nd Aug 2019.
+                                <br>
+                                <br>
+                            </p>
+                            <br>
+                            <a href="#event">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-3">
+                    <div class="icon_box_one">
+                        <i class="lnr lnr-rocke"></i>
+                        <div class="content">
+                            <h4>Code day</h4>
+                            <p>
+                                The Code day is a special event where one's coding knowledge will be evaluated.
+                                <br>
+                                <br>
+                                <strong>Note :</strong>&nbsp;Code day is an special event conducted only for the students of Sri Sairam Engineering College.
+                            </p>
+                            <br>
+                            <a href="#event">read more</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div> -->
+            <!--event features end-->
+        </div>
+    </section>
+    <!--about us end -->
+
+    <!--sponsors section -->
+    <section class="bg-gray pb100 mb100" id="sponsor">
+        <div class="container">
+            <div class="section_title mb50">
+                <h3 class="title">
+                    our eminent Sponsors
+                </h3>
+            </div>
+            <h3 class="cover-title" style="text-align: center;">
+                <span style="font-weight: 400;">Coming soon!</span>
+            </h3>
+            <!-- <div class="brand_carousel owl-carousel" id="owl2">
+                <div class="brand_item text-center mx-auto">
+                    <a href="https://atos.net/en/" target="_blank"><img src="assets/img/brands/atos.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="http://www.activegalaxy.in" target="_blank"><img src="assets/img/brands/Active%20galaxy.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="https://balsamiq.com" target="_blank"><img src="assets/img/brands/balsamiq.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="https://www.facebook.com/Camproad/" target="_blank"><img src="assets/img/brands/BOYKA.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="https://www.bugsee.com" target="_blank"><img src="assets/img/brands/bugsee.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="https://www.indiamart.com/herdsmannindustries/" target="_blank"><img src="assets/img/brands/hiland_2.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <img src="assets/img/brands/mc.png" alt="brand">
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="https://nyxwolves.com" target="_blank"><img src="assets/img/brands/nyx.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="http://www.ramcocements.in" target="_blank"><img src="assets/img/brands/RAMCO.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <img src="assets/img/brands/rema.png" alt="brand">
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="https://www.voicesnap.com" target="_blank"><img src="assets/img/brands/voice.png" alt="brand"></a>
+                </div>
+                <div class="brand_item text-center mx-auto">
+                    <a href="http://vrsavvy.co/" target="_blank"><img src="assets/img/brands/vr.png" alt="brand"></a>
+                </div>
+            </div> -->
+        </div>
+    </section>
+    <!--brands section end-->
+
+    <!-- faq section start -->
+    <section class="pb100" id="faq" style="background-color: #ffffff;">
+        <div class="container">
+            <div class="section_title">
+                <h3 class="title">
+                    FAQs
+                </h3>
+            </div>
+            <div role="tabpanel">
+                <!-- Nav tabs -->
+                <div class="filters">
+                    <ul class="nav nav-tabs">
+                        <li class="arimapane"><a class="active arimaPane" onclick="togglePane('arimaPane')" data-toggle="tab" href="#arimaTab">A.R.I.M.A</a></li>
+                        <li class="coderallypane"><a class="coderallyPane" onclick="togglePane('coderallyPane')" data-toggle="tab" href="#coderallyTab">Coderally;</a></li>
+                        <li class="agapepane"><a class="agapePane" onclick="togglePane('agapePane')" data-toggle="tab" href="#agapeTab">Agape</a></li>
+                        <li class="memeitpane"><a class="memeitPane" onclick="togglePane('memeitPane')" data-toggle="tab" href="#memeitTab">MemeIT!</a></li>
+                    </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane arimatab active" id="arimaTab">
+                        <div class="faq">
+                            <p>Does it cost anything for applying? <span onclick="toggleFAQ1(1)" class=""></span></p>
+                            <p style="max-height: 0px;">No - our events are always awesome and <span class="primary">free of charge.</span> All we ask for is
+                                <span class="accent">your passion and dedication</span> to code this world for better. </p>
+                        </div>
+                        <div class="faq">
+                            <p>Who can attend? <span onclick="toggleFAQ1(2)" class=""></span></p>
+                            <p style="max-height: 0px;">We host A.R.I.M.A to bring amazing <span class="accent">student developers</span> together on our collective mission to change the world. Xtrofest is home to <span class="primary">undergrads across India (and beyond).</span>                                </p>
+                        </div>
+                        <div class="faq">
+                            <p>Till when are you open? <span onclick="toggleFAQ1(3)" class=""></span></p>
+                            <p style="max-height: 0px;">The application period closes on <span class="primary">Sept 24, 2020 at 23:59 IST</span>.<br> We evaluate applications on a rolling basis and <span class="accent">send acceptances after the registrations are closed.</span>
+                            </p>
+                        </div>
+                        <div class="faq">
+                            <p>How will you evaluate us during the event? <span onclick="toggleFAQ1(4)" class=""></span></p>
+                            <p style="max-height: 0px;">We have invited some <span class="primary">great IT professionals</span> to help us evaluate your projects.</p>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane coderallytab" id="coderallyTab">
+                        <div class="faq">
+                            <p>Does it cost anything for applying? <span onclick="toggleFAQ2(1)" class=""></span></p>
+                            <p style="max-height: 0px;">No - our events are always awesome and <span class="primary">free of charge.</span> All we ask for is
+                                <span class="accent">your passion and dedication</span> to code this world for better. </p>
+                        </div>
+                        <div class="faq">
+                            <p>Who can attend? <span onclick="toggleFAQ2(2)" class=""></span></p>
+                            <p style="max-height: 0px;">Are you a student? If YES you are in however, beware its gonna be <span class="primary">competitive</span></p>
+                        </div>
+                        <div class="faq">
+                            <p>Do we apply as a team? <span onclick="toggleFAQ2(3)" class=""></span></p>
+                            <p style="max-height: 0px;">No, its an <span class="primary">individual</span> coding tournament.</p>
+                        </div>
+                        <div class="faq">
+                            <p>Till when are you open? <span onclick="toggleFAQ2(4)" class=""></span></p>
+                            <p style="max-height: 0px;">The application period closes on <span class="primary">Sept 24, 2020 at 23:59 IST</span>.<br> The tournament link (in HackerEarth) will be shared via mail after the registration closes.
+                            </p>
+                        </div>
+                        <div class="faq">
+                            <p>How will you evaluate us during the event? <span onclick="toggleFAQ2(5)" class=""></span></p>
+                            <p style="max-height: 0px;">The evaluation is solely based on the <span class="primary">points</span> you aquire by solving the programs.<br> After each round your results will be <span class="accent">intimated via mail.</span></p>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane agapetab" id="agapeTab">
+                        <div class="faq">
+                            <p>Does it cost anything for applying? <span onclick="toggleFAQ3(1)" class=""></span></p>
+                            <p style="max-height: 0px;">No - our events are always awesome and <span class="primary">free of charge.</span> All we ask for is
+                                <span class="accent">your passion and dedication</span> to code this world for better. </p>
+                        </div>
+                        <div class="faq">
+                            <p>Till when are you open? <span onclick="toggleFAQ3(2)" class=""></span></p>
+                            <p style="max-height: 0px;">The application period closes on <span class="primary">Sept 24, 2020 at 23:59 IST</span>.
+                            </p>
+                        </div>
+                        <div class="faq">
+                            <p>Tell me about the event.. <span onclick="toggleFAQ3(3)" class=""></span></p>
+                            <p style="max-height: 0px;">Seriously dude... No one knows, its a complete <span class="primary">MYSTERY.</span></p>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane memeittab" id="memeitTab">
+                        <div class="faq">
+                            <p>Does it cost anything for applying? <span onclick="toggleFAQ4(1)" class=""></span></p>
+                            <p style="max-height: 0px;">No - our events are always awesome and <span class="primary">free of charge.</span> All we ask for is
+                                <span class="accent">your passion and dedication</span> to code this world for better. </p>
+                        </div>
+                        <div class="faq">
+                            <p>Till when are you open? <span onclick="toggleFAQ4(2)" class=""></span></p>
+                            <p style="max-height: 0px;">The application period closes on <span class="primary">Sept 24, 2020 at 23:59 IST</span>.
+                            </p>
+                        </div>
+                        <div class="faq">
+                            <p>How are the memes evaluated? <span onclick="toggleFAQ4(3)" class=""></span></p>
+                            <p style="max-height: 0px;">We have a <span class="primary">carefully prepared rubric</span> to evaluate. And of course, the <span class="primary">number of likes</span> for your post in <span class="accent">Instagram</span> plays a vital role.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- faq section end -->
+
+    <!--footer start -->
+    <footer>
+        <div class="container" id="contact">
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6">
+                    <div class="footer_box">
+                        <div class="footer_header">
+                            <div class="footer_logo">
+                                <img src="assets/img/xtrofest2.0_icon_min.png" alt="evento">
+                            </div>
+                        </div>
+                        <div class="footer_box_body">
+                            <ul class="social-icons">
+                                <li class="mr10">
+                                    <a href="https://www.instagram.com/xtrofest_2k20/" target="_blank" class="social-icon"> <i class="fa fa-instagram"></i></a>
+                                </li>
+                                <li class="mr10">
+                                    <a href="https://www.linkedin.com/in/xtrofest-ssec-5289aa1b6/" target="_blank" class="social-icon"> <i class="fa fa-linkedin"></i></a>
+                                </li>
+                                <li class="mr10">
+                                    <a href="https://www.facebook.com/xtrofest.ssec" target="_blank" class="social-icon"> <i class="fa fa-facebook"></i></a>
+                                </li>
+                            </ul>
+                            <p class="pt5"> Reach us at : </p>
+                            <ul class="icon_list pt2">
+                                <li>
+                                    <i class="ion-ios-telephone"></i>
+                                    <span style="font-size:20px;color:whitesmoke">
+                                       Staff Co-ordinator:
+                                       <div class="ml10">
+                                            Mrs. Anitha Jebamani:&nbsp;+91 98400 37765 <br>
+                                            Mrs. Padma:&nbsp;+91 98401 78394<br>
+                                            Mrs. Kamala:&nbsp;+91 94448 85539
+                                        </div>
+                                </span>
+                                </li>
+                                <li>
+                                    <i class="ion-ios-telephone"></i>
+                                    <span style="font-size:20px;color:whitesmoke">
+                                       Student Co-ordinators:
+                                       <div class="ml10">
+                                       Praveen: +91 99628 94801<br>
+                               Suganth: +91 80729 48266<br>
+                               Lenin: +91 91596 35986
+                            </div>
+                                </span>
+                                </li>
+                                <li>
+                                    <i class="fa fa-envelope"></i>
+                                    <span style="font-size:20px;color:whitesmoke">
+                                    xtrofest.india@gmail.com
+                                </span>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-6 mx-auto">
+                    <div class="footer_box">
+                        <div class="footer_header">
+                            <h4 class="footer_title" style="color:white; ">
+                                Location
+                            </h4>
+                        </div>
+                        <!-- <div class="footer_box_body d-block d-md-none">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.183422847543!2d80.05520681435364!3d12.960111918638008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52f51f619c9533%3A0x3293c9321c6264b8!2sSri+Sairam+Engineering+College!5e0!3m2!1sen!2sin!4v1563590281781!5m2!1sen!2sin"
+                                width="300" height="300" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        </div> -->
+                        <div class="footer_box_body d-none d-md-block">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.183422847543!2d80.05520681435364!3d12.960111918638008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52f51f619c9533%3A0x3293c9321c6264b8!2sSri+Sairam+Engineering+College!5e0!3m2!1sen!2sin!4v1563590281781!5m2!1sen!2sin"
+                                width="550" height="400" frameborder="0" style="border:0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <p>
+                        <b>Address : Sairam Campus, Sai Leo Nagar, West Tambaram<br> Chennai, Tamil Nadu 600044   
+                                <br>Phone: 044 2251 2222</b>
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="copyright_footer">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-12">
+                    <p style="color:#F50136;font-weight:bolder;font-size:14px;text-align: center;">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;
+                        <script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--footer end -->
+
+    <!-- Arima modal start -->
+
+    <div class="modal fade" id="arimaModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalTitle">A.R.I.M.A</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div role="tabpanel" class="pb50 mb20" style="border-bottom: solid 1px #e9e6e7;">
+                        <!-- Nav tabs -->
+                        <div class="filters">
+                            <ul class="nav nav-tabs">
+                                <li class="initialTab"><a class="active" data-toggle="tab" href="#initialTab">Registration</a></li>
+                                <li class="eventDayTab"><a data-toggle="tab" href="#eventDayTab">Event day</a></li>
+                            </ul>
+                        </div>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="initialTab">
+                                <p class="ins_title">Steps:</p>
+                                <ol>
+                                    <li>The Team leader of each team are requested to register for the event using the link below.</li>
+                                    <li>It'll be a <span class="primary">team registration.</span> Hence, the team members are <span class="accent">not required to register individually.</span></li>
+                                    <li>Based on the <span class="primary">solution proposed</span> by the teams for the given problem statement, the teams will be <span class="accent">shortlisted.</span></li>
+                                    <li>The solution can be submitted as a <span class="accent">simple text document or as a presentation or any other necessary format.</span></li>
+                                    <li>The solution must be <span class="primary">uploaded</span> in your <span class="accent">registration form.</span></li>
+                                    <li>Our team will <span class="accent">directly contact</span> the shortlisted teams after the selection process.</li>
+                                    <li>For further details about the event day, kindly check the <span class="primary">next tab.</span></li>
+                                </ol>
+                                <p class="ins_title">Problem Statement:</p>
+                                <p class="ml30" style="font-size: 16px;">Virtual schools in rural areas</p>
+                                <p class="ins_title">Statement Explanation:</p>
+                                <p class="ml30 card_content">Due to this <span class="primary">pandemic</span> and subsequent lock down <span class="accent">educational institutions</span> have been closed all around the country. <span class="primary">Online classes</span> are used
+                                    to continue teaching. But not all students have <span class="primary">access to laptops and good network.</span> This puts them in an disadvantage compared to <span class="accent">urban students.</span><br>
+                                    <p class="ml30" style="font-weight: 400;font-size: 15px;">Identify the various problems faced by the rural students with regards to online education and provide your solutions for the same.</p>
+                                </p>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="eventDayTab">
+                                <p class="ins_title">Instructions</p>
+                                <ol>
+                                    <li>The shortlisted teams will be provided with the problem statements <span class="primary">on the event day.</span></li>
+                                    <li>The Team must develop a solution within the span of the event.<span class="primary">#24-Hours</span></li>
+                                    <li>The solution is <span class="primary">strictly</span> instructed to be <span class="accent">web based.</span></li>
+                                    <li>As it's a virtual event, <span class="primary">hardware solution are prohibited.</span></li>
+                                    <li>The <span class="primary">tech stacks</span> which can be used by the teams are <span class="accent">provided below.</span></li>
+                                </ol>
+                                <p class="ins_title">Date & Time:</p>
+                                <p class="ml30">Sept 28, 2020 at 12:00PM to Sept 29, 2020 at 01:00PM</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="ins_title">Last date for registration: <span class="primary">Sept 24, 2020 at 11.59PM IST.</span></p>
+                    <table class="mb20">
+                        <tr>
+                            <td><i class="ion-ios-telephone modal_contact_icon"></i></td>
+                            <td class="ins_title">Contact: </td>
+                            <td class="contact_text">&nbsp;Gokulakrishnan R</td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td class="contact_text">&nbsp;+91 73586 52359</td>
+                        </tr>
+                    </table>
+                    <div class="container">
+                        <h6 class="ins_title"> Technology Stack</h6>
+                        <div class="tech_carousel owl-carousel tech_stack" id="owl2">
+                            <div class="brand_item text-center mx-auto">
+                                <a title="Artificial Intelligence"><img src="assets/img/techStack/AI.png" alt="Artificial Intelligence"></a>
+                            </div>
+                            <div class="brand_item text-center mx-auto">
+                                <a title="Machine Learning"><img src="assets/img/techStack/machineLearning.png" alt="Machine Learning"></a>
+                            </div>
+                            <div class="brand_item text-center mx-auto">
+                                <a title="Deep Learning"><img src="assets/img/techStack/deeplearning1.png" alt="Deep Learning"></a>
+                            </div>
+                            <div class="brand_item text-center mx-auto">
+                                <a title="Block Chain"><img src="assets/img/techStack/blockChain.png" alt="Block Chain"></a>
+                            </div>
+                            <div class="brand_item text-center mx-auto">
+                                <a title="Cloud Computing"><img src="assets/img/techStack/cloudComputing1.png" alt="Cloud Computing"></a>
+                            </div>
+                            <div class="brand_item text-center mx-auto">
+                                <a title="Cyber Security"><img src="assets/img/techStack/cyberSecurity2.png" alt="Cyber Security"></a>
+                            </div>
+                            <div class="brand_item text-center mx-auto">
+                                <a title="Big Data"><img src="assets/img/techStack/bigData.png" alt="Big Data"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a target=”_blank” href="https://forms.gle/wt3bMaGF6x5YmMgv9" class="btn btn-primary">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- Arima modal end -->
+
+    <!-- coderally modal start -->
+
+    <div class="modal fade" id="coderallyModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalTitle">CODERALLY;</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <p class="ins_title">Instructions:</p>
+                    <div class="pb20 mb20" style="border-bottom: solid 1px #e9e6e7;">
+                        <ol>
+                            <li>The participants are requested to register for the event using the link below.</li>
+                            <li>The tournament consists of 3 rounds : <span class="accent">prelims, semi-final and the finale.</span></li>
+                            <li>The participants are requested to create a <span class="primary">hackerearth profile</span>, If they do not have an existing hackerearth profile.</li>
+                            <li>The HackerEarth profile ID is <span class="primary">required to register</span> for the event.</li>
+                            <li>The participants are instructed to attend the event <span class="primary">ONLY using the registered hackerEarth profile</span>, else their submissions will be <span class="primary">forfeited.</span></li>
+                            <li>The participants can refer the <span class="accent"><a href="#kz-section-schedule">schedule section</a></span> for details regarding event timings.</li>
+                        </ol>
+                    </div>
+                    <p class="ins_title">Last date for registration: <span class="primary">Sept 24, 2020 at 11.59PM IST.</span></p>
+                    <table class="mb20">
+                        <tr>
+                            <td><i class="ion-ios-telephone modal_contact_icon"></i></td>
+                            <td class="ins_title">Contact: </td>
+                            <td class="contact_text">&nbsp;Krishnan V C</td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td class="contact_text">&nbsp;+91 95663 21788</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a target=”_blank” href="https://forms.gle/wt3bMaGF6x5YmMgv9" class="btn btn-primary">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- coderally modal end -->
+
+    <!-- agape modal start -->
+
+    <div class="modal fade" id="agapeModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content ml20">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalTitle">AGAPE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    Well, We are not sure... <br>It's probably a <span class="primary">MYSTERY</span>... It might be unpredictable..<br>like the creation of the universe..<br> Or wait <span class="primary">Big Bang theory ?</span> <br>We never know...Quantum
+                    Physics...
+                    <span class="accent">LOL</span><br>
+                    <p class="ins_title">Last date for registration: <span class="primary">Sept 24, 2020 at 11.59PM IST.</span></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <a target=”_blank” href="https://forms.gle/wt3bMaGF6x5YmMgv9" class="btn btn-primary">Register Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- agape modal end -->
+
+    <!-- memeit modal start -->
+    <div class="modal fade" id="memeitModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalTitle">MEME-IT!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+                </div>
+                <div class="modal-body">
+                    <div role="tabpanel" class="pb50 mb20" style="border-bottom: solid 1px #e9e6e7;">
+                        <!-- Nav tabs -->
+                        <div class="filters">
+                            <ul class="nav nav-tabs">
+                                <li class="initialTab"><a class="active" data-toggle="tab" href="#registerationTab">Registration</a></li>
+                                <li class="topicRulesyTab"><a data-toggle="tab" href="#topicRulesTab">Themes & Rules</a></li>
+                            </ul>
+                        </div>
+                        <!-- Tab panes -->
+                        <div class="tab-content">
+                            <div role="tabpanel" class="tab-pane active" id="registerationTab">
+                                <p class="ins_title">Instructions</p>
+                                <ol>
+                                    <li>The participants are instructed to submit their entries in <span class="primary">JPEG or PNG format.</span></li>
+                                    <li>The meme entries are requested to be sent to the following mail ID along with your <span class="primary">name and details</span> in the <span class="accent"> subject of the mail.</span> </li>
+                                    <li>The memes will be published on our event's <span class="accent"><a target="_blank" href="https://www.instagram.com/xtrofest_2k20/"> instagram page</a></span> on <span class="primary">25 September 2020.</span></li>
+                                    <li>Winners will be announced based on <span class="primary">careful evaluation</span> by our team and <span class="accent">number of likes.</span></li>
+                                </ol>
+                            </div>
+                            <div role="tabpanel" class="tab-pane" id="topicRulesTab">
+                                <div class="mb20">
+                                    <p class="ins_title">Themes: </p>
+                                    <ol>
+                                        <li>Arrear Atrocity - "Dai Sonamutha pocha"</li>
+                                        <li>Online class parithabangal- "Savadikuraangale enaya" </li>
+                                        <li>Lockdown Sodhanaigal- "Gate-a paathale bayama iruku" </li>
+                                        <li>Pubg Vs Freefire - "Yaaru Gethu?"</li>
+                                    </ol>
+                                </div>
+                                <div class="mb20">
+                                    <p class="ins_title">Rules: </p>
+                                    <ol>
+                                        <li>The meme entries must compulsorily be the <span class="primary">original work and idea of the participant.</span></li>
+                                        <li>The participants are instructed to <span class="primary">not include</span><span class="accent"> any kind of vulgar content</span> in their meme.</li>
+                                        <li>The meme entries must <span class="primary">not defame</span> any individual or organization and not mention any individual political names.</li>
+                                        <li>Violation of any of the above rules will lead to <span class="primary">disqualification</span> of the participant from the competion.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="ins_title">Last date for submissions: <span class="primary">Sept 24, 2020 at 11.59PM IST.</span></p>
+                    <table class="mb20">
+                        <tr>
+                            <td><i class="fa fa-envelope fa1 modal_contact_icon"></i></td>
+                            <td class="ins_title">Mail: </td>
+                            <td class="contact_text">&nbsp;memeit.xtrofest2.0@gmail.com</td>
+                        </tr>
+                    </table>
+                    <table class="mb20">
+                        <tr>
+                            <td><i class="ion-ios-telephone modal_contact_icon"></i></td>
+                            <td class="ins_title">Contact: </td>
+                            <td class="contact_text">&nbsp;Arun Kumar</td>
+                        </tr>
+                        <tr>
+                            <td> </td>
+                            <td> </td>
+                            <td class="contact_text">&nbsp;+91 97917 13507</td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Register now!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- memeit modal end -->
+
+    <!-- back to top btn -->
+    <a id="back-to-top" href="#" class="btn back-to-top" title="To top>" role="button"><i class="fa fa-chevron-up"></i></a>
+    <!-- back to top btn -->
+
+    <script src="assets/js/jquery.min.js"></script>
+    <!-- bootstrap -->
+    <script src="assets/js/popper.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/waypoints.min.js"></script>
+    <!--slick carousel -->
+    <script src="assets/js/owl.carousel.min.js"></script>
+    <!--parallax -->
+    <script src="assets/js/parallax.min.js"></script>
+    <!--Counter up -->
+    <script src="assets/js/jquery.counterup.min.js"></script>
+    <!--Counter down -->
+    <script src="assets/js/jquery.countdown.min.js"></script>
+    <!-- WOW JS -->
+    <script src="assets/js/wow.min.js"></script>
+    <!-- Custom js -->
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
